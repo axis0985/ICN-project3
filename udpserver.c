@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include "myHeader.h"
 #define LOCAL_SERVER_PORT 1500
-#define MAX_MSG 100
+#define MAX_MSG 65535
 
 void print_myHeader(myHeader *hdr)
 {
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
     /* server infinite loop */
     char msg[MAX_MSG];
-    myHeader	hdr;
+    //myHeader	hdr;
     int cliLen, nbytes;
     struct sockaddr_in cliAddr;
     while(1) 
@@ -59,18 +59,18 @@ int main(int argc, char *argv[])
 
         /* init buffer */
         memset(msg, 0x0, MAX_MSG);
-        memset(&hdr, 0x0, sizeof(myHeader));
 
         /* receive message */
         cliLen = sizeof(cliAddr);
-        nbytes = recvfrom(fd_socket, &hdr, sizeof(myHeader), 0, (struct sockaddr *) &cliAddr, &cliLen);
+        nbytes = recvfrom(fd_socket, msg, sizeof(msg), 0, (struct sockaddr *) &cliAddr, &cliLen);
         if(nbytes<0) 
         {
             printf("%s: cannot receive data \n",argv[0]);
             continue;
         }
 
-        print_myHeader(&hdr);
+        //print_myHeader(&hdr);
+        printf("received data: %s", msg);
         printf("\n");
     }/* end of server infinite loop */
 

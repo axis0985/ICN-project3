@@ -7,22 +7,11 @@
 #include <unistd.h>
 #include <string.h> /* memset() */
 #include <sys/time.h> /* select() */
-
-//for Mac OS X
 #include <stdlib.h>
-#include "myHeader.h"
 #define REMOTE_SERVER_PORT 1500
-#define MAX_MSG 100
+#define MAX_MSG 1024
 
-void print_myHeader( myHeader  *hdr )
-{
-    printf("myHeader field1: %d\n", hdr->field1);
-    printf("myHeader field2: %d\n", hdr->field2);
-    printf("myHeader field3: %d\n", hdr->field3);
-    printf("myHeader field4: %d\n", hdr->field4);
-    printf("myHeader field5: %d\n", hdr->field5);
-    printf("\n"); 
-}
+short f_to_buf(FILE *, char *);
 
 int main(int argc, char *argv[]) 
 {
@@ -70,28 +59,42 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    myHeader      hdr;
-    memset( &hdr, 0x0, sizeof(myHeader) );
-    hdr.field1 = 0x1;
-    hdr.field2 = 0x2;
-    hdr.field3 = 0x3;
-    hdr.field4 = 0x4;
-    hdr.field5 = 0x5;
-    print_myHeader(&hdr);
-
     /* send data */
-    int sentError = sendto(fd_socket, &hdr, sizeof(myHeader), 0,
-                           (struct sockaddr *) &remoteServAddr,
-                           sizeof(remoteServAddr));
-    if(sentError<0)
-    {
-        printf("%s: cannot send data.\n",argv[0]);
-        close(fd_socket);
-        exit(1);
+    FILE *fptr;
+    char buf[MAX_MSG];
+    fptr = fopen(argv[2], "r");
+    if (fptr == NULL) {
+        printf("%s: cannot open file %s.\n", argv[0], argv[2]);
+        exit(EXIT_FAILURE);
     }
-
+    while (1) {
+        short b = f_to_buf(fptr, buf);
+        if (b == 1) {
+            break;
+        }
+        int sentError = sendto(fd_socket, buf, sizeof(buf), 0,
+                            (struct sockaddr *) &remoteServAddr,
+                            sizeof(remoteServAddr));
+        if (sentError<0) {
+            printf("%s", argv[0]);
+            close(fd_socket);
+            exit(EXIT_FAILURE);
+        }
+    }
     return 1;
 }
 
-
+short f_to_buf(FILE *f, char *buf) {
+    printf("BUDDHA");
+    char ch;
+    memset(buf, 0, sizeof(buf));
+    for (int i=0; i<MAX_MSG; i++) {
+        ch = fgetc(f);
+        buf[i] = ch;
+        if (ch == EOF) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
