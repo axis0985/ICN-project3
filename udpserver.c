@@ -10,7 +10,7 @@
 #define LOCAL_SERVER_PORT 1500
 #define MAX_MSG 1280
 // CAUTION!!
-// UDP SAFE PAYLOAD SIZE IS 576 - 60(IP) - 8(UDP) BYTES!! 
+// UDP SAFE PAYLOAD SIZE IS 576 - 20(IP) - 8(UDP) = 548 BYTES!! 
 int main(int argc, char *argv[])
 {
     int fd_socket;
