@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#define MAX_MSG 1280
 
 int main(int argc , char *argv[])
 
@@ -28,7 +29,7 @@ int main(int argc , char *argv[])
     listen(sockfd,5);
 
     char message[] = {"Hi,this is server.\n"};
-    char inputBuffer[256] = {};
+    char inputBuffer[MAX_MSG] = {};
     while(1){
         forClientSockfd = accept(sockfd, (struct sockaddr*) &clientInfo, &addrlen);
         recv(forClientSockfd,inputBuffer, sizeof(inputBuffer),0);

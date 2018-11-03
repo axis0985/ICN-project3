@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
     /* send data */
     FILE *fptr;
     char buf[MAX_MSG];
+    memset(buf, 0x0, sizeof(buf));
     fptr = fopen(argv[2], "r");
     if (fptr == NULL) {
         printf("%s: cannot open file %s.\n", argv[0], argv[2]);
@@ -86,7 +87,6 @@ int main(int argc, char *argv[])
 
 short f_to_buf(FILE *f, char *buf) {
     char ch;
-    memset(buf, 0, sizeof(buf));
     for (int i=0; i<MAX_MSG; i++) {
         ch = fgetc(f);
         buf[i] = ch;

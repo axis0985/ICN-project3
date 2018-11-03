@@ -6,6 +6,20 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#define MAX_MSG 1280
+
+short f_to_buf(FILE *f, char *buf) {
+    char ch;
+    memset(buf, 0, sizeof(buf));
+    for (int i=0; i<MAX_MSG; i++) {
+        ch = fgetc(f);
+        buf[i] = ch;
+        if (ch == EOF) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 int main(int argc , char *argv[])
 {
@@ -41,9 +55,14 @@ int main(int argc , char *argv[])
 
 
     //Send a message to server
+    FILE *fptr;
+    char buf[MAX_MSG];
+    memset(buf, 0x0, sizeof(buf));
+    fptr = fopen("data", "r");
+    f_to_buf(fptr, buf);
     char message[] = {"Hi there"};
     char receiveMessage[100] = {};
-    send(sockfd,message, sizeof(message),0);
+    send(sockfd, buf, sizeof(buf),0);
 
     recv(sockfd,receiveMessage, sizeof(receiveMessage),0);
     printf("Get message from server: %s", receiveMessage);
