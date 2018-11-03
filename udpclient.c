@@ -9,7 +9,7 @@
 #include <sys/time.h> /* select() */
 #include <stdlib.h>
 #define REMOTE_SERVER_PORT 1500
-#define MAX_MSG 1024
+#define MAX_MSG 1280
 
 short f_to_buf(FILE *, char *);
 
@@ -69,9 +69,6 @@ int main(int argc, char *argv[])
     }
     while (1) {
         short b = f_to_buf(fptr, buf);
-        if (b == 1) {
-            break;
-        }
         int sentError = sendto(fd_socket, buf, sizeof(buf), 0,
                             (struct sockaddr *) &remoteServAddr,
                             sizeof(remoteServAddr));
@@ -80,12 +77,14 @@ int main(int argc, char *argv[])
             close(fd_socket);
             exit(EXIT_FAILURE);
         }
+        if (b == 1) {
+            break;
+        }
     }
     return 1;
 }
 
 short f_to_buf(FILE *f, char *buf) {
-    printf("BUDDHA");
     char ch;
     memset(buf, 0, sizeof(buf));
     for (int i=0; i<MAX_MSG; i++) {

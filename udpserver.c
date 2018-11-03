@@ -6,22 +6,11 @@
 #include <stdio.h>
 #include <unistd.h> /* close() */
 #include <string.h> /* memset() */
-
-//for Mac OS X
 #include <stdlib.h>
-#include "myHeader.h"
 #define LOCAL_SERVER_PORT 1500
-#define MAX_MSG 65535
-
-void print_myHeader(myHeader *hdr)
-{
-    printf("myHeader field1: %d\n", hdr->field1);
-    printf("myHeader field2: %d\n", hdr->field2);
-    printf("myHeader field3: %d\n", hdr->field3);
-    printf("myHeader field4: %d\n", hdr->field4);
-    printf("myHeader field5: %d\n", hdr->field5);
-}
-
+#define MAX_MSG 1280
+// CAUTION!!
+// UDP SAFE PAYLOAD SIZE IS 576 - 60(IP) - 8(UDP) BYTES!! 
 int main(int argc, char *argv[])
 {
     int fd_socket;
@@ -69,8 +58,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        //print_myHeader(&hdr);
-        printf("received data: %s", msg);
+        printf("%s", msg);
         printf("\n");
     }/* end of server infinite loop */
 
