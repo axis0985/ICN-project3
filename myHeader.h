@@ -1,5 +1,3 @@
-// myHeader.h
-
 typedef struct
 {
     unsigned char                       field1;

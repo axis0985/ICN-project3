@@ -1,5 +1,3 @@
-// tcpclient.c
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,11 +9,10 @@
 
 int main(int argc , char *argv[])
 {
-
     char serv_addr_str[100];
     printf("Please Input Server Address: ");
-    memset(serv_addr_str,0,100);
-    //scanf("%s", &serv_addr_str);
+    memset(serv_addr_str, 0x0, 100);
+    //scanf("%s", &serv_addr_str); 
     fgets(serv_addr_str, sizeof(serv_addr_str), stdin);
 
     //socket的建立
@@ -29,7 +26,7 @@ int main(int argc , char *argv[])
     //socket的連線
 
     struct sockaddr_in info;
-    bzero(&info,sizeof(info));
+    memset(&info, 0x0, sizeof(info));
     info.sin_family = PF_INET;
 
     //localhost test
@@ -37,7 +34,7 @@ int main(int argc , char *argv[])
     info.sin_port = htons(1500);
 
 
-    int err = connect(sockfd,(struct sockaddr *)&info,sizeof(info));
+    int err = connect(sockfd,(struct sockaddr *)&info, sizeof(info));
     if(err==-1){
         printf("Connection error");
     }
@@ -46,10 +43,10 @@ int main(int argc , char *argv[])
     //Send a message to server
     char message[] = {"Hi there"};
     char receiveMessage[100] = {};
-    send(sockfd,message,sizeof(message),0);
+    send(sockfd,message, sizeof(message),0);
 
-    recv(sockfd,receiveMessage,sizeof(receiveMessage),0);
-    printf("Get message from server: %s",receiveMessage);
+    recv(sockfd,receiveMessage, sizeof(receiveMessage),0);
+    printf("Get message from server: %s", receiveMessage);
     
     close(sockfd);
     return 0;

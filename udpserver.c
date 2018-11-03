@@ -1,5 +1,3 @@
-// server.c
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,7 +13,7 @@
 #define LOCAL_SERVER_PORT 1500
 #define MAX_MSG 100
 
-void print_myHeader( myHeader  *hdr )
+void print_myHeader(myHeader *hdr)
 {
     printf("myHeader field1: %d\n", hdr->field1);
     printf("myHeader field2: %d\n", hdr->field2);
