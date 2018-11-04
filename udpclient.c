@@ -9,7 +9,7 @@
 #include <sys/time.h> /* select() */
 #include <stdlib.h>
 #define REMOTE_SERVER_PORT 1500
-#define MAX_MSG 1280
+#define MAX_MSG 52
 
 short f_to_buf(FILE *, char *);
 

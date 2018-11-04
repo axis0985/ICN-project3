@@ -59,7 +59,6 @@ int main(int argc, char *argv[])
         }
 
         printf("%s", msg);
-        printf("\n");
     }/* end of server infinite loop */
 
     return 0;
