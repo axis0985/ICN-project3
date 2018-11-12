@@ -5,7 +5,7 @@ PROGS = $(patsubst %.c,%,$(SRCS))
 all: $(PROGS)
 
 %: %.c
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -std=c99 -o $@ $<
 
 .PHONY: clean
 clean: 
