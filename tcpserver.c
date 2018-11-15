@@ -33,7 +33,6 @@ int main(int argc , char *argv[])
     while(1){
         forClientSockfd = accept(sockfd, (struct sockaddr*) &clientInfo, &addrlen);
         recv(forClientSockfd,inputBuffer, sizeof(inputBuffer),0);
-        send(forClientSockfd,message, sizeof(message),0);
         printf("Get message from client: %s\n", inputBuffer);
     }
     return 0;
