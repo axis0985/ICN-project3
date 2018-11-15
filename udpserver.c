@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }
 
     /* bind local server port */
-    bzero((char*)&servAddr, sizeof(servAddr));
+    memset((char*)&servAddr, 0, sizeof(servAddr));
     servAddr.sin_family = AF_INET;
     servAddr.sin_addr.s_addr = htonl(INADDR_ANY); // 利用 htonl, htons 轉成網絡字節優先順序
     servAddr.sin_port = htons(LOCAL_SERVER_PORT); // 設定 port 為 0 的話，電腦會自動搜尋一個未被佔用的 port
