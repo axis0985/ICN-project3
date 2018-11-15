@@ -6,7 +6,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#define MAX_MSG 1280
+#include <unistd.h>
+#define MAX_MSG 52
 
 short f_to_buf(FILE *f, char *buf) {
     char ch;
@@ -59,14 +60,19 @@ int main(int argc , char *argv[])
     char buf[MAX_MSG];
     memset(buf, 0x0, sizeof(buf));
     fptr = fopen("data", "r");
-    f_to_buf(fptr, buf);
+    short boolean = 0;
     char message[] = {"Hi there"};
     char receiveMessage[100] = {};
-    send(sockfd, buf, sizeof(buf),0);
 
-    recv(sockfd,receiveMessage, sizeof(receiveMessage),0);
-    printf("Get message from server: %s", receiveMessage);
-    
+    while (boolean == 0) {
+        boolean = f_to_buf(fptr, buf);
+        if (send(sockfd, buf, sizeof(buf),0) < 0)
+        {
+            printf("Errrrr");
+            break;
+        }
+    }
+    printf("end");
     close(sockfd);
     return 0;
 }
